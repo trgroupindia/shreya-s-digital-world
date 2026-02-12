@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const fullText = "For Someone Very Special… Shreya ❤️";
 
 const Hero = () => {
+  const navigate = useNavigate();
   const [typed, setTyped] = useState("");
 
   useEffect(() => {
@@ -17,8 +19,8 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const scrollDown = () => {
-    document.getElementById("love-letter")?.scrollIntoView({ behavior: "smooth" });
+  const goToLogin = () => {
+    navigate("/login");
   };
 
   return (
@@ -52,7 +54,7 @@ const Hero = () => {
         </motion.p>
 
         <motion.button
-          onClick={scrollDown}
+          onClick={goToLogin}
           className="glow-button mt-4 rounded-full px-8 py-3 font-body text-lg font-medium text-primary-foreground"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
