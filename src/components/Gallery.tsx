@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import s1 from "@/assets/shreya-1.png";
+import s2 from "@/assets/shreya-2.png";
+import s3 from "@/assets/shreya-3.png";
+import s4 from "@/assets/shreya-4.jpg";
 import m1 from "@/assets/memory-1.jpg";
 import m2 from "@/assets/memory-2.jpg";
 import m3 from "@/assets/memory-3.jpg";
@@ -9,6 +13,10 @@ import m5 from "@/assets/memory-5.jpg";
 import m6 from "@/assets/memory-6.jpg";
 
 const images = [
+  { src: s1, caption: "My cutie pie 🥰" },
+  { src: s2, caption: "That adorable look 💫" },
+  { src: s3, caption: "Those beautiful eyes ✨" },
+  { src: s4, caption: "Gorgeous as always 💖" },
   { src: m1, caption: "The moment everything changed 💫" },
   { src: m2, caption: "Roses that remind me of you 🌹" },
   { src: m3, caption: "Our dreamy sunsets 🌅" },
@@ -28,7 +36,7 @@ const Gallery = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        📸 Our Memories
+        📸 Cutie Pie Gallery
       </motion.h2>
 
       <div className="mx-auto max-w-5xl columns-2 sm:columns-3 gap-4 space-y-4">

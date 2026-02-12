@@ -27,18 +27,12 @@ const LoveCounter = () => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
 
-  const now = new Date();
-  const diffMs = now.getTime() - START_DATE.getTime();
-  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-  const daysCount = useCountUp(days, inView);
-  const hoursCount = useCountUp(days * 3, inView); // mock: 3 hours/day talking
-  const messagesCount = useCountUp(days * 47, inView); // mock: 47 msgs/day
+  const daysCount = useCountUp(19, inView);
 
   const stats = [
-    { value: daysCount, label: "Days Together", icon: "💕" },
-    { value: hoursCount, label: "Hours Talked", icon: "🕐" },
-    { value: messagesCount, label: "Messages Shared", icon: "💬" },
+    { value: daysCount, label: "Days Together", icon: "💕", display: null },
+    { value: 0, label: "Hours Talked", icon: "🕐", display: "∞" },
+    { value: 0, label: "Messages Shared", icon: "💬", display: "Uncountable" },
   ];
 
   return (
@@ -65,7 +59,7 @@ const LoveCounter = () => {
           >
             <span className="text-4xl">{s.icon}</span>
             <p className="font-display text-4xl sm:text-5xl font-bold text-primary mt-3">
-              {s.value.toLocaleString()}
+              {s.display ?? s.value.toLocaleString()}
             </p>
             <p className="font-body text-sm text-muted-foreground mt-2">{s.label}</p>
           </motion.div>
