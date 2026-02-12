@@ -1,7 +1,7 @@
 #root {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
 }
 
@@ -39,4 +39,210 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* ========== DASHBOARD CUSTOM STYLES ========== */
+
+/* Cursor glow effect */
+body {
+  background: #000;
+  cursor: none;
+  position: relative;
+}
+
+/* Custom cursor glow */
+@keyframes cursor-glow {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.3), 0 0 20px rgba(255, 105, 180, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.5), 0 0 40px rgba(255, 105, 180, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.3), 0 0 20px rgba(255, 105, 180, 0.2);
+  }
+}
+
+/* Neon text glow */
+@keyframes neon-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.5), 0 0 20px rgba(255, 105, 180, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 105, 180, 0.8), 0 0 30px rgba(255, 105, 180, 0.6);
+  }
+}
+
+/* Glass morphism effect */
+.glass-card {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 105, 180, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 105, 180, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(255, 105, 180, 0.2);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 105, 180, 0.3) rgba(15, 23, 42, 0.2);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.2);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to right, rgba(255, 105, 180, 0.3), rgba(199, 124, 255, 0.3));
+  border-radius: 100px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to right, rgba(255, 105, 180, 0.6), rgba(199, 124, 255, 0.6));
+}
+
+/* Button glow effects */
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Input focus glow */
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.3), inset 0 0 10px rgba(255, 105, 180, 0.1);
+}
+
+/* Smooth page transitions */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* AI breathing glow effect for special elements */
+@keyframes breathe {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.3), 0 0 40px rgba(255, 105, 180, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.5), 0 0 60px rgba(255, 105, 180, 0.3);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Parallax background on desktop */
+@media (min-width: 1024px) {
+  body {
+    background-attachment: fixed;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  #root {
+    padding: 0;
+  }
+
+  button {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Reduce animation on low-end devices */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Responsive text sizes */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.875rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Special hover effect for interactive elements */
+.interactive-element {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.interactive-element:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(255, 105, 180, 0.2);
+}
+
+/* Neon border animation */
+@keyframes neon-border {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.3), inset 0 0 10px rgba(255, 105, 180, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.6), inset 0 0 20px rgba(255, 105, 180, 0.2);
+  }
+}
+
+/* Loading animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Hero gradient background */
+.hero-gradient {
+  background: linear-gradient(135deg, rgba(255, 105, 180, 0.2) 0%, rgba(199, 124, 255, 0.1) 50%, rgba(59, 130, 246, 0.2) 100%);
 }
