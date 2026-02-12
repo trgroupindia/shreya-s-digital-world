@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 const milestones = [
   { icon: "💬", title: "First Chat", desc: "The conversation that started it all" },
   { icon: "📞", title: "First Call", desc: "Hearing your voice for the first time" },
-  { icon: "😅", title: "First Fight", desc: "We came back stronger than ever" },
-  { icon: "🌹", title: "First Date", desc: "A day I'll never forget" },
   { icon: "❤️", title: "Forever Promise", desc: "And the story continues…" },
 ];
 
