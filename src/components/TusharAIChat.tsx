@@ -228,6 +228,35 @@ const TusharAIChat = () => {
     } else {
       setIsCallMode(true);
       setVoiceEnabled(true);
+      // Auto-start listening after a short delay
+      setTimeout(() => {
+        if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+          const SR = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+          const recognition = new SR();
+          recognition.lang = "hi-IN";
+          recognition.interimResults = true;
+          recognition.continuous = true;
+
+          recognition.onresult = (event: any) => {
+            const transcript = Array.from(event.results)
+              .map((r: any) => r[0].transcript)
+              .join("");
+            if (event.results[event.results.length - 1].isFinal) {
+              sendMessage(transcript);
+            }
+          };
+
+          recognition.onend = () => {
+            try { recognition.start(); } catch {}
+          };
+
+          recognition.onerror = () => setIsListening(false);
+
+          recognitionRef.current = recognition;
+          recognition.start();
+          setIsListening(true);
+        }
+      }, 500);
     }
   };
 
@@ -363,11 +392,11 @@ const TusharAIChat = () => {
       </div>
 
       {/* Input bar */}
-      <div className="px-3 py-3 border-t border-rose-200/20">
-        <div className="flex items-center gap-2 px-3 py-2 rounded-full glass-card">
+      <div className="sticky bottom-0 px-3 py-3 border-t border-border bg-background/80 backdrop-blur-sm">
+        <div className="flex items-center gap-1.5 px-3 py-2 rounded-full glass-card">
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="p-1.5 rounded-full hover:bg-rose-100/40 text-muted-foreground transition-colors"
+            className="shrink-0 p-2 rounded-full hover:bg-muted text-muted-foreground transition-colors"
           >
             <Paperclip className="w-4 h-4" />
           </button>
@@ -379,13 +408,13 @@ const TusharAIChat = () => {
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === "Enter" && !e.shiftKey && sendMessage(input)}
             placeholder="Kuch bhi bol do..."
-            className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+            className="flex-1 min-w-0 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
 
           <button
             onClick={toggleListening}
-            className={`p-1.5 rounded-full transition-colors ${
-              isListening ? "bg-rose-500 text-white" : "hover:bg-rose-100/40 text-muted-foreground"
+            className={`shrink-0 p-2 rounded-full transition-colors ${
+              isListening ? "bg-primary text-primary-foreground" : "hover:bg-muted text-muted-foreground"
             }`}
           >
             {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
@@ -394,7 +423,7 @@ const TusharAIChat = () => {
           <button
             onClick={() => sendMessage(input)}
             disabled={isLoading || (!input.trim())}
-            className="p-1.5 rounded-full bg-primary text-primary-foreground disabled:opacity-40 transition-colors"
+            className="shrink-0 p-2 rounded-full bg-primary text-primary-foreground disabled:opacity-40 transition-colors"
           >
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
           </button>
