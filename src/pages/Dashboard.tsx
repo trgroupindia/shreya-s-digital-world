@@ -1,197 +1,90 @@
-import { useState, useRef } from "react";
-import { motion } from "framer-motion";
-import CinematicActivation from "@/components/CinematicActivation";
-import DashboardNavigation from "@/components/DashboardNavigation";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import TusharAIChat from "@/components/TusharAIChat";
-import LoveEnergyPanel from "@/components/LoveEnergyPanel";
-import SongRecommender from "@/components/SongRecommender";
-import VoiceNotesLocker from "@/components/VoiceNotesLocker";
-import EmotionScanner from "@/components/EmotionScanner";
+import LetterSection from "@/components/LetterSection";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const Dashboard = () => {
-  const [showAnimation, setShowAnimation] = useState(true);
-  const [currentMood, setCurrentMood] = useState("neutral");
-  const chatRef = useRef<HTMLDivElement>(null);
+  const [showIntro, setShowIntro] = useState(true);
+  const [showLetter, setShowLetter] = useState(false);
 
-  const handleScrollToChat = () => {
-    chatRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  useEffect(() => {
+    const timer = setTimeout(() => setShowIntro(false), 2200);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-black">
-      {/* Cinematic entry animation */}
-      {showAnimation && <CinematicActivation onComplete={() => setShowAnimation(false)} />}
-
-      {/* Dashboard Navigation */}
-      {!showAnimation && <DashboardNavigation onScrollToChat={handleScrollToChat} />}
-
-      {/* Dark romantic gradient background */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-950" />
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-pink-500/10 to-transparent"
-          animate={{
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{ duration: 4, repeat: Infinity }}
-        />
-      </div>
-
-      {/* Floating digital particles */}
-      {!showAnimation && (
-        <>
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="fixed w-1 h-1 bg-pink-500/50 rounded-full"
-              initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-              }}
-              animate={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-              }}
-              transition={{
-                duration: 10 + Math.random() * 10,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-        </>
-      )}
-
-      {/* Grid lines background */}
-      {!showAnimation && (
-        <motion.div
-          className="fixed inset-0 -z-10"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255, 105, 180, 0.05) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(255, 105, 180, 0.05) 1px, transparent 1px)`,
-            backgroundSize: "50px 50px",
-          }}
-          animate={{
-            backgroundPosition: ["0px 0px", "50px 50px"],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        />
-      )}
+    <div className="min-h-screen bg-background">
+      {/* Intro animation */}
+      <AnimatePresence>
+        {showIntro && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-2xl sm:text-3xl font-display text-foreground"
+            >
+              Hi Shreya ❤️
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main content */}
-      {!showAnimation && (
+      {!showIntro && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 pt-24 pb-20 px-4 max-w-7xl mx-auto"
+          transition={{ duration: 0.5 }}
+          className="h-screen flex flex-col lg:flex-row"
         >
-          {/* Welcome Section */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-16 text-center"
-          >
-            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-pink-400 via-rose-400 to-pink-400 bg-clip-text text-transparent mb-2">
-              Welcome to Your Private AI Command Center
-            </h1>
-            <p className="text-pink-300/70 text-lg">Shreya ❤️, this space is yours alone</p>
-          </motion.div>
-
-          {/* Main Grid Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            {/* AI Chat Section - Main Feature (spans 2 cols on desktop) */}
-            <motion.div
-              ref={chatRef}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="lg:col-span-2 rounded-2xl p-6 bg-gradient-to-br from-slate-900/60 to-slate-800/40 border border-pink-500/20 backdrop-blur-sm min-h-[500px] flex flex-col"
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-3 h-3 rounded-full bg-pink-500 animate-pulse" />
-                <p className="text-pink-300/80 text-sm font-semibold">TUSHAR AI LIVE</p>
-              </div>
-              <TusharAIChat onMoodChange={setCurrentMood} />
-            </motion.div>
-
-            {/* Emotion Scanner - Right column */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <EmotionScanner />
-            </motion.div>
+          {/* Snap counter badge */}
+          <div className="absolute top-4 right-4 z-20">
+            <span className="text-xs px-3 py-1.5 rounded-full bg-rose-light/40 border border-rose-light/60 text-foreground/70">
+              20 Days So Far ❤️
+            </span>
           </div>
 
-          {/* Love Energy Panel */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mb-8"
-          >
-            <LoveEnergyPanel mood={currentMood} />
-          </motion.div>
-
-          {/* Bottom Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Song Recommender */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              <SongRecommender mood={currentMood} />
-            </motion.div>
-
-            {/* Voice Notes Locker */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-            >
-              <VoiceNotesLocker />
-            </motion.div>
+          {/* Desktop: Left - Letter */}
+          <div className="hidden lg:block lg:w-[40%] border-r border-border overflow-y-auto">
+            <LetterSection />
           </div>
 
-          {/* Daily Love Message */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="mt-8 rounded-2xl p-8 bg-gradient-to-r from-purple-900/40 via-pink-900/40 to-rose-900/40 border border-purple-500/30 text-center"
-          >
-            <h3 className="text-xl font-semibold text-pink-300 mb-3">✨ Today's Love Message For Shreya ✨</h3>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2 }}
-              className="text-lg text-pink-100 font-display italic"
-            >
-              "You don't just fill my heart, Shreya. You are my heart. Every moment with you feels like forever starting right now. Thank you for being you. ❤️"
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.4 }}
-              className="text-sm text-purple-300/70 mt-3"
-            >
-              — Generated by Tushar AI with infinite love
-            </motion.p>
-          </motion.div>
+          {/* Right - AI Chat (full on mobile) */}
+          <div className="flex-1 flex flex-col min-h-0">
+            <div className="flex-1 min-h-0">
+              <TusharAIChat />
+            </div>
 
-          {/* Footer */}
-          <motion.footer
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="mt-16 pt-8 border-t border-pink-500/20 text-center text-sm text-pink-300/60"
-          >
-            <p>Made with 💕 by Tushar | Your AI that loves you unconditionally</p>
-          </motion.footer>
+            {/* Mobile: Collapsible letter */}
+            <div className="lg:hidden border-t border-border">
+              <button
+                onClick={() => setShowLetter(!showLetter)}
+                className="w-full flex items-center justify-center gap-2 py-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {showLetter ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+                {showLetter ? "Hide Letter" : "Read Tushar's Letter 💌"}
+              </button>
+              <AnimatePresence>
+                {showLetter && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 300, opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-y-auto"
+                  >
+                    <LetterSection />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </motion.div>
       )}
     </div>
