@@ -43,13 +43,6 @@ const Dashboard = () => {
           transition={{ duration: 0.5 }}
           className="h-screen flex flex-col lg:flex-row"
         >
-          {/* Snap counter badge */}
-          <div className="absolute top-4 right-4 z-20">
-            <span className="text-xs px-3 py-1.5 rounded-full bg-rose-light/40 border border-rose-light/60 text-foreground/70">
-              20 Days So Far ❤️
-            </span>
-          </div>
-
           {/* Desktop: Left - Letter */}
           <div className="hidden lg:block lg:w-[40%] border-r border-border overflow-y-auto">
             <LetterSection />
